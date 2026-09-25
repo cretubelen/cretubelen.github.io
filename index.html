@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Andrea Cretu Toma — Software Engineer</title>
+<title>Andrea Cretu Toma - Software Engineer</title>
 <meta name="description" content="Andrea Belen Cretu Toma. Software Engineer, currently pursuing the Erasmus Mundus MSc in Geospatial Technologies across Lisbon, Münster and Castellón.">
 <!-- Favicon: green rounded-square mark with a letter, matching the site's wordmark -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23566b34'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='34' fill='%23f2f0e6' text-anchor='middle'%3Eb%3C/text%3E%3C/svg%3E">
@@ -60,7 +60,7 @@
   a{ color:inherit; }
   .wrap{ max-width:var(--max); margin:0 auto; padding:0 24px; }
 
-  /* fade-in transition, applied once per whole block (hero / each section) — not per paragraph */
+  /* fade-in transition, applied once per whole block (hero / each section)  not per paragraph */
   .reveal{
     opacity:0;
     transform:translateY(20px);
@@ -203,12 +203,10 @@
 
 <header class="hero reveal" id="top">
   <div class="wrap">
-    <!-- Añade tu foto en la raíz del repo (junto a este index.html) con el nombre "photo.jpg" -->
+    <div class="hero-copy"></div>
     <img class="avatar" src="photo.jpg" alt="Andrea Belen Cretu Toma">
-    <span class="location mono">Castellón, Spain</span>
     <h1 class="name">Andrea Belen<br>Cretu Toma</h1>
-    <div class="hero-copy">
-      <p class="role">Software Engineer, working on the boundary between machine learning and the physical world — from neural networks to robotics to maps.</p>
+      <p class="role">Software Engineer, working on the boundary between machine learning and the physical world, from neural networks to Geospatial Technologies to maps.</p>
       <p class="lede">Currently completing the Erasmus Mundus MSc in Geospatial Technologies, a program split across three cities and three semesters: Lisbon, Münster, and back home in Castellón.</p>
       <div class="links">
         <a href="https://github.com/cretubelen" target="_blank" rel="noopener">
@@ -236,7 +234,7 @@
     <div class="about-grid">
       <p class="quote">I define myself as someone eager to learn, curious about how things work, and persistent enough to see it through.</p>
       <p>I graduated in Software Engineering from Universitat Jaume I, where I first got involved in neural network research, built robotics software with UJI Robotics, and taught programming to kids through a university outreach program. That mix of research, engineering, and teaching is still what I look for.</p>
-      <p>I'm now in a three-country master's degree in Geospatial Technologies, run jointly by NOVA IMS in Lisbon, the University of Münster, and Universitat Jaume I — combining my software and machine learning background with spatial data and earth observation.</p>
+      <p>I'm now in a three-country master's degree in Geospatial Technologies, run jointly by NOVA IMS in Lisbon, the University of Münster, and Universitat Jaume I, combining my software and machine learning background with spatial data and earth observation.</p>
     </div>
   </div>
 </section>
@@ -248,7 +246,7 @@
     </div>
 
     <div class="entry">
-      <div class="when">Feb 2025 – Present<span class="where">Innova Consulting</span></div>
+      <div class="when">Feb 2025 – July 2025<span class="where">Innova Consulting</span></div>
       <div>
         <span class="role-sub">Internship</span>
         <h3>University internship</h3>
@@ -306,7 +304,7 @@
       <div>
         <span class="role-sub">In progress</span>
         <h3>Erasmus Mundus MSc, Geospatial Technologies</h3>
-        <p>Joint degree between NOVA IMS (Lisbon), the University of Münster, and Universitat Jaume I (Castellón) — one semester per city.</p>
+        <p>Joint degree between NOVA IMS (Lisbon), the University of Münster, and Universitat Jaume I (Castellón); one semester per city.</p>
       </div>
     </div>
 
@@ -315,7 +313,7 @@
       <div>
         <span class="role-sub">Graduated</span>
         <h3>B.Sc. Software Engineering, Universitat Jaume I</h3>
-        <p>Undergraduate degree in software engineering, alongside research and robotics activity described under Experience.</p>
+        <p>Undergraduate degree in software engineering, alongside research and Machine Learning activity described under Experience.</p>
       </div>
     </div>
 
@@ -360,7 +358,7 @@
     <div class="section-head">
       <h2 class="title">Contact</h2>
     </div>
-    <p>Research, robotics, geospatial data, or just to talk about any of the above — reach out through any of these.</p>
+    <p>Research, Machine Learning, geospatial data, or just to talk about any of the above...</p>
     <div class="contact-list">
       <a href="mailto:cretubelen@gmail.com">
         <span class="label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>Email</span>
@@ -402,7 +400,6 @@
   })();
 
   // Fade-in transition between whole blocks (hero, about, experience, education, skills, contact)
-  // — triggers once per block, not per paragraph.
   (function(){
     var blocks = document.querySelectorAll('.reveal');
     if (!('IntersectionObserver' in window)) {
