@@ -101,16 +101,41 @@
   html:not([data-theme="light"]) .icon-sun{ display:none; }
 
   /* hero */
-  header.hero{ padding:88px 0 72px; transition:background-color .3s ease;  text-align:center;}
-  .avatar{
-    width:104px; height:104px;
-    border-radius:50%;
-    object-fit:cover;
-    border:1px solid var(--hair);
-    margin:0 auto 28px;
-    background:var(--surface);
-    display:block;
-  }
+header.hero{
+  padding:88px 0 72px;
+  transition:background-color .3s ease;
+  text-align:center;
+}
+
+.hero .wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.avatar{
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  object-fit:cover;
+  border:1px solid var(--hair);
+  margin:0 auto 28px;
+  background:var(--surface);
+  display:block;
+}
+
+.hero-copy{
+  text-align:center;
+  max-width:52ch;
+  margin:22px auto 0;
+}
+
+.hero .role,
+.hero .lede{
+  max-width:52ch;
+  margin-left:auto;
+  margin-right:auto;
+}
   .location{ font-size:0.8rem; color:var(--accent-strong); letter-spacing:0.02em; margin-bottom:18px; display:block; }
   h1.name{ font-size:clamp(2.4rem, 6vw, 3.6rem); line-height:1.05; font-weight:700; }
   /* description centered, independent of the rest of the hero */
@@ -203,7 +228,6 @@
 
 <header class="hero reveal" id="top">
   <div class="wrap">
-    <div class="hero-copy"></div>
     <img class="avatar" src="photo.png" alt="Andrea Belen Cretu Toma">
     <h1 class="name">Andrea Belen<br>Cretu Toma</h1>
       <p class="role">Software Engineer, working on the boundary between machine learning and the physical world, from neural networks to Geospatial Technologies to maps.</p>
