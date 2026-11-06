@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Projects - Andrea Cretu Toma</title>
+<meta name="description" content="Some of my projects: a cycling infrastructure comparison between Münster and Amsterdam, and a community hazard response map.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23566b34'/%3E%3Ctext x='32' y='44' font-family='Georgia,serif' font-size='34' fill='%23f2f0e6' text-anchor='middle'%3Eb%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#111110;
+    --alt:#171813;
+    --surface:#191a17;
+    --ink:#f1efe6;
+    --ink-soft:#a8a89c;
+    --accent:#8aa05e;
+    --accent-strong:#a9bd80;
+    --hair:#2a2b26;
+    --tan:#6f7061;
+    --max:760px;
+    --max-wide:1080px;
+    --radius:3px;
+  }
+  html[data-theme="light"]{
+    --bg:#f7f5ee;
+    --alt:#ffffff;
+    --surface:#ece8da;
+    --ink:#181a12;
+    --ink-soft:#54563f;
+    --accent:#4a5a2b;
+    --accent-strong:#3a4721;
+    --hair:#dcd6c1;
+    --tan:#8b8b73;
+  }
+  *{box-sizing:border-box;}
+  html{ scroll-behavior:smooth; scroll-padding-top:calc(64px + env(safe-area-inset-top,0px)); }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+    transition:background-color .2s ease, color .2s ease;
+  }
+  h1,h2,h3{
+    font-family:"Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+    color:var(--ink);
+    letter-spacing:-0.01em;
+    margin:0;
+  }
+  .mono{ font-family:"IBM Plex Mono", ui-monospace, SFMono-Regular, monospace; }
+  a{ color:inherit; }
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 24px; }
+  .wrap.wide{ max-width:var(--max-wide); }
+  p{ margin:0 0 1em; color:var(--ink-soft); max-width:62ch; }
+  p:last-child{ margin-bottom:0; }
+
+  /* nav */
+  nav{
+    position:sticky; top:0; z-index:20;
+    background:color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--hair);
+    padding-top:env(safe-area-inset-top,0px);
+  }
+  nav .wrap{ display:flex; align-items:center; justify-content:space-between; height:56px; }
+  .brand{ font-family:"Space Grotesk"; font-weight:600; font-size:1rem; color:var(--accent); text-decoration:none; }
+  .navlinks{ display:flex; align-items:center; gap:22px; list-style:none; margin:0; padding:0; }
+  .navlinks a{ font-size:0.88rem; text-decoration:none; color:var(--ink-soft); transition:color .15s ease; }
+  .navlinks a:hover, .navlinks a:focus-visible, .navlinks a[aria-current="page"]{ color:var(--accent); }
+  @media (max-width:520px){ .navlinks{ gap:14px; } .navlinks a{ font-size:0.82rem; } }
+
+  #theme-toggle{
+    display:flex; align-items:center; justify-content:center;
+    width:32px; height:32px;
+    border:1px solid var(--hair);
+    border-radius:50%;
+    background:none;
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:color .15s ease, border-color .15s ease;
+  }
+  #theme-toggle:hover, #theme-toggle:focus-visible{ color:var(--accent); border-color:var(--accent); }
+  #theme-toggle svg{ width:16px; height:16px; }
+  html[data-theme="light"] .icon-moon{ display:none; }
+  html:not([data-theme="light"]) .icon-sun{ display:none; }
+
+  /* page intro */
+  header.page-head{ padding:72px 0 40px; }
+  h1.page-title{ font-size:clamp(2rem, 5vw, 2.8rem); line-height:1.1; font-weight:700; }
+  header.page-head p{ margin-top:16px; font-size:1.05rem; }
+
+  /* project blocks */
+  .project{ padding:56px 0; border-top:1px solid var(--hair); }
+  .project:nth-of-type(odd){ background:var(--alt); }
+  .project-grid{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);
+    gap:48px;
+    align-items:start;
+  }
+  .project.flip .project-grid{ grid-template-columns:minmax(0,1.6fr) minmax(0,1fr); }
+  .project.flip .project-text{ order:2; }
+  @media (max-width:860px){
+    .project-grid, .project.flip .project-grid{ grid-template-columns:1fr; gap:28px; }
+    .project.flip .project-text{ order:0; }
+  }
+  .project h2{ font-size:1.5rem; font-weight:600; margin-bottom:14px; }
+  .project h3{ font-size:1.02rem; font-weight:600; margin:22px 0 6px; color:var(--accent-strong); }
+  .project-text p{ max-width:none; }
+  .taglist{ display:flex; flex-wrap:wrap; gap:8px 10px; padding:0; margin:22px 0 0; list-style:none; }
+  .taglist li{ font-size:0.85rem; padding:5px 12px; border:1px solid var(--hair); border-radius:var(--radius); color:var(--ink-soft); }
+
+  figure{ margin:0; }
+  figure img{
+    display:block;
+    width:100%;
+    height:auto;
+    border:1px solid var(--hair);
+    border-radius:var(--radius);
+    background:#fff;
+  }
+  figcaption{ margin-top:10px; font-size:0.82rem; color:var(--tan); }
+
+  footer{ padding:32px 0 48px; font-size:0.8rem; color:var(--tan); }
+  :focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="index.html">abct.</a>
+    <ul class="navlinks">
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#experience">Experience &amp; Education</a></li>
+      <li><a href="projects.html" aria-current="page">Projects</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+      <li>
+        <button id="theme-toggle" type="button" aria-label="Toggle light and dark theme">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.5A8.5 8.5 0 1 1 11.5 3a7 7 0 0 0 9.5 9.5z"/></svg>
+        </button>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="wrap">
+    <h1 class="page-title">Some of my projects</h1>
+    <p>Two projects that work with OpenStreetMap data: one compares how cities build for cyclists, the other connects people in need with nearby offers of help.</p>
+  </div>
+</header>
+
+<section class="project" id="cycling-infra">
+  <div class="wrap wide">
+    <div class="project-grid">
+      <div class="project-text">
+        <h2>Cycling infrastructure</h2>
+        <p>A comparison of cycling infrastructure in Münster, Germany and Amsterdam, Netherlands, with every route classified by safety level using OpenStreetMap data.</p>
+        <h3>Comparison 🇩🇪 vs 🇳🇱</h3>
+        <p><span class="mono">compare_cities()</span> draws the maps for both cities with exactly the same color palette. That makes it easy to compare the type of infrastructure each city uses at a glance, without checking the summary tables 🚲</p>
+        <ul class="taglist">
+          <li>OpenStreetMap</li><li>Münster</li><li>Amsterdam</li>
+        </ul>
+      </div>
+      <figure>
+        <img src="images/cycling-infra.png" alt="Two maps comparing cycling infrastructure in Münster and Amsterdam, with routes colored by type: dedicated track, footway track, painted lane, shared road." loading="lazy">
+        <figcaption>Cycling infrastructure by safety level, Münster and Amsterdam. Source: OpenStreetMap contributors.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="project flip" id="hazard-response">
+  <div class="wrap wide">
+    <div class="project-grid">
+      <div class="project-text">
+        <h2>Community hazard response</h2>
+        <p>An interactive web map where people post needs and offers during a hazard event, with filters for facilities and a search by administrative area. Here it is shown over Lisbon.</p>
+        <h3>Nearby offers: proximity radius</h3>
+        <p>Click a need on the map and a dashed 2 km radius circle appears, highlighting the matching offers by proximity. Bright green circles are within range, and the closest offer is shown largest.</p>
+        <ul class="taglist">
+          <li>Leaflet</li><li>OpenStreetMap</li><li>Lisbon</li>
+        </ul>
+      </div>
+      <figure>
+        <img src="images/hazard-response.png" alt="Map of Lisbon with red needs markers, green offers markers and a dashed 2 km radius circle around a selected need." loading="lazy">
+        <figcaption>Selecting a need draws a 2 km radius and highlights the offers in range.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+    <span>© 2026 Andrea Cretu Toma</span>
+    <span class="mono">abct.</span>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var root = document.documentElement;
+    var btn = document.getElementById('theme-toggle');
+    var saved = null;
+    try { saved = localStorage.getItem('theme'); } catch(e) {}
+    var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+    if (saved) { root.setAttribute('data-theme', saved); }
+    else if (prefersLight) { root.setAttribute('data-theme', 'light'); }
+    btn.addEventListener('click', function(){
+      var isLight = root.getAttribute('data-theme') === 'light';
+      var next = isLight ? 'dark' : 'light';
+      root.setAttribute('data-theme', next);
+      try { localStorage.setItem('theme', next); } catch(e) {}
+    });
+  })();
+</script>
+
+</body>
+</html>
