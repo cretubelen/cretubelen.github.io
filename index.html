@@ -22,6 +22,7 @@
     --hair:#2a2b26;
     --tan:#6f7061;
     --max:760px;
+    --max-wide:1080px;
     --radius:3px;
   }
   html[data-theme="light"]{
@@ -59,6 +60,7 @@
   .mono{ font-family:"IBM Plex Mono", ui-monospace, SFMono-Regular, monospace; }
   a{ color:inherit; }
   .wrap{ max-width:var(--max); margin:0 auto; padding:0 24px; }
+  .wrap.wide{ max-width:var(--max-wide); }
 
   /* fade-in transition, applied once per whole block (hero / each section)  not per paragraph */
   .reveal{
@@ -84,6 +86,7 @@
   .navlinks{ display:flex; align-items:center; gap:22px; list-style:none; margin:0; padding:0; }
   .navlinks a{ font-size:0.88rem; text-decoration:none; color:var(--ink-soft); transition:color .15s ease; }
   .navlinks a:hover, .navlinks a:focus-visible{ color:var(--accent); }
+  @media (max-width:520px){ .navlinks{ gap:14px; } .navlinks a{ font-size:0.82rem; } }
 
   #theme-toggle{
     display:flex; align-items:center; justify-content:center;
@@ -101,93 +104,74 @@
   html:not([data-theme="light"]) .icon-sun{ display:none; }
 
   /* hero */
-header.hero{
-  padding:88px 0 72px;
-  transition:background-color .3s ease;
-  text-align:center;
-}
+  header.hero{
+    padding:88px 0 72px;
+    transition:background-color .3s ease;
+    text-align:center;
+  }
+  .hero .wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+  }
+  .avatar{
+    width:140px;
+    height:140px;
+    border-radius:50%;
+    object-fit:cover;
+    border:1px solid var(--hair);
+    margin:0 auto 28px;
+    background:var(--surface);
+    display:block;
+  }
+  .location{
+    font-size:0.8rem;
+    color:var(--accent-strong);
+    letter-spacing:0.02em;
+    margin-bottom:18px;
+    display:block;
+  }
+  h1.name{
+    font-size:clamp(2.4rem, 6vw, 3.6rem);
+    line-height:1.05;
+    font-weight:700;
+  }
+  .hero .role,
+  .hero .lede{
+    width:100%;
+    max-width:700px;
+    margin-left:auto;
+    margin-right:auto;
+    font-size:1.1rem;
+    color:var(--ink-soft);
+  }
+  .hero .role{ margin-top:22px; }
+  .hero .lede{ margin-top:14px; }
+  .links{
+    margin-top:30px;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px 26px;
+  }
+  .links a{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    text-decoration:none;
+    border-bottom:1px solid var(--tan);
+    padding-bottom:2px;
+    font-size:0.95rem;
+    color:var(--ink);
+    transition:border-color .15s ease, color .15s ease;
+  }
+  .links a:hover,
+  .links a:focus-visible{
+    color:var(--accent);
+    border-color:var(--accent);
+  }
+  .links svg{ width:16px; height:16px; flex-shrink:0; }
 
-.hero .wrap{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
-
-.avatar{
-  width:140px;
-  height:140px;
-  border-radius:50%;
-  object-fit:cover;
-  border:1px solid var(--hair);
-  margin:0 auto 28px;
-  background:var(--surface);
-  display:block;
-}
-
-.location{
-  font-size:0.8rem;
-  color:var(--accent-strong);
-  letter-spacing:0.02em;
-  margin-bottom:18px;
-  display:block;
-}
-
-h1.name{
-  font-size:clamp(2.4rem, 6vw, 3.6rem);
-  line-height:1.05;
-  font-weight:700;
-}
-
-/* Hero description */
-.hero .role,
-.hero .lede{
-  width:100%;
-  max-width:700px;
-  margin-left:auto;
-  margin-right:auto;
-  font-size:1.1rem;
-  color:var(--ink-soft);
-}
-
-.hero .role{
-  margin-top:22px;
-}
-
-.hero .lede{
-  margin-top:14px;
-}
-
-.links{
-  margin-top:30px;
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:10px 26px;
-}
-
-.links a{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  text-decoration:none;
-  border-bottom:1px solid var(--tan);
-  padding-bottom:2px;
-  font-size:0.95rem;
-  color:var(--ink);
-  transition:border-color .15s ease, color .15s ease;
-}
-
-.links a:hover,
-.links a:focus-visible{
-  color:var(--accent);
-  border-color:var(--accent);
-}
-
-.links svg{
-  width:16px;
-  height:16px;
-  flex-shrink:0;
-}
   /* sections */
   section{ padding:64px 0; transition:background-color .3s ease; }
   section:nth-of-type(even){ background:var(--alt); }
@@ -204,6 +188,7 @@ h1.name{
     color:var(--ink); max-width:46ch;
   }
 
+  /* entries (timeline rows). Default: date column + content */
   .entry{ display:grid; grid-template-columns:150px 1fr; gap:20px; padding:20px 0; border-top:1px solid var(--hair); }
   .entry:first-child{ border-top:none; padding-top:0; }
   .entry .when{ font-size:0.82rem; color:var(--accent-strong); padding-top:2px; }
@@ -211,6 +196,14 @@ h1.name{
   .entry h3{ font-size:1.05rem; font-weight:600; margin-bottom:6px; }
   .entry .role-sub{ font-size:0.88rem; color:var(--accent); margin-bottom:8px; display:block; }
   @media (max-width:560px){ .entry{ grid-template-columns:1fr; gap:6px; } }
+
+  /* Experience (left) + Education (right) on the same screen */
+  .split{ display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:start; }
+  .split h2.title{ margin-bottom:28px; }
+  /* inside half-width columns the date sits above the content */
+  .split .entry{ grid-template-columns:1fr; gap:6px; }
+  .split p{ max-width:none; }
+  @media (max-width:820px){ .split{ grid-template-columns:1fr; gap:48px; } }
 
   .cols{ display:grid; grid-template-columns:1.2fr 1fr; gap:48px; }
   @media (max-width:620px){ .cols{ grid-template-columns:1fr; gap:32px; } }
@@ -246,8 +239,8 @@ h1.name{
     <a class="brand" href="#top">abct.</a>
     <ul class="navlinks">
       <li><a href="#about">About</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#education">Education</a></li>
+      <li><a href="#experience">Experience &amp; Education</a></li>
+      <li><a href="projects.html">Projects</a></li>
       <li><a href="#contact">Contact</a></li>
       <li>
         <button id="theme-toggle" type="button" aria-label="Toggle light and dark theme">
@@ -279,7 +272,6 @@ h1.name{
           Email
         </a>
       </div>
-    </div>
   </div>
 </header>
 
@@ -296,93 +288,92 @@ h1.name{
   </div>
 </section>
 
+<!-- Experience (left) and Education (right) share one section -->
 <section id="experience" class="reveal">
-  <div class="wrap">
-    <div class="section-head">
-      <h2 class="title">Experience</h2>
-    </div>
+  <div class="wrap wide">
+    <div class="split">
 
-    <div class="entry">
-      <div class="when">Feb 2025 – July 2025<span class="where">Innova Consulting</span></div>
       <div>
-        <span class="role-sub">Internship</span>
-        <h3>University internship</h3>
-        <p>Junior programmer working on Microsoft Dynamics 365 Business Central. Developed my final degree project here: integrating biometric signature capture into Business Central documents using Power Automate and Power Apps.</p>
+        <h2 class="title">Experience</h2>
+
+        <div class="entry">
+          <div class="when">Feb 2025 – July 2025<span class="where">Innova Consulting</span></div>
+          <div>
+            <span class="role-sub">Internship</span>
+            <h3>University internship</h3>
+            <p>Junior programmer working on Microsoft Dynamics 365 Business Central. Developed my final degree project here: integrating biometric signature capture into Business Central documents using Power Automate and Power Apps.</p>
+          </div>
+        </div>
+
+        <div class="entry">
+          <div class="when">Jun – Dec 2024<span class="where">Sucre4Kids</span></div>
+          <div>
+            <span class="role-sub">Research &amp; teaching</span>
+            <h3>AI research and programming education</h3>
+            <p>Studied applied AI methods within a university research group and taught programming fundamentals to children as part of the Sucre4Kids outreach initiative.</p>
+          </div>
+        </div>
+
+        <div class="entry">
+          <div class="when">Sep 2023 – Sep 2024<span class="where">UJI Robotics</span></div>
+          <div>
+            <span class="role-sub">Robotics</span>
+            <h3>Robotic intelligence</h3>
+            <p>Contributed to the "UJI Robotics" team at Universitat Jaume I, working on robotics software as part of a student research group.</p>
+          </div>
+        </div>
+
+        <div class="entry">
+          <div class="when">Sep 2023 – Sep 2024</div>
+          <div>
+            <span class="role-sub">Web development</span>
+            <h3>Building for the web</h3>
+            <p>Studied modern web development practices and designed and built web pages end to end.</p>
+          </div>
+        </div>
+
+        <div class="entry">
+          <div class="when">Sep 2022 – Jul 2023<span class="where">Grupo GIANT</span></div>
+          <div>
+            <span class="role-sub">Research</span>
+            <h3>Neural networks research</h3>
+            <p>Member of the GIANT research group, studying neural network architectures and contributing to ongoing research.</p>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <div class="entry">
-      <div class="when">Jun – Dec 2024<span class="where">Sucre4Kids</span></div>
-      <div>
-        <span class="role-sub">Research &amp; teaching</span>
-        <h3>AI research and programming education</h3>
-        <p>Studied applied AI methods within a university research group and taught programming fundamentals to children as part of the Sucre4Kids outreach initiative.</p>
+      <div id="education">
+        <h2 class="title">Education</h2>
+
+        <div class="entry">
+          <div class="when">2025 – 2027<span class="where">Münster, Germany</span></div>
+          <div>
+            <span class="role-sub">In progress</span>
+            <h3>Erasmus Mundus MSc, Geospatial Technologies</h3>
+            <p>Joint degree between NOVA IMS (Lisbon), the University of Münster, and Universitat Jaume I (Castellón); one semester per city.</p>
+          </div>
+        </div>
+
+        <div class="entry">
+          <div class="when">2021 – 2025<span class="where">Castellón, Spain</span></div>
+          <div>
+            <span class="role-sub">Graduated</span>
+            <h3>B.Sc. Software Engineering, Universitat Jaume I</h3>
+            <p>Undergraduate degree in software engineering, alongside research and Machine Learning activity described under Experience.</p>
+          </div>
+        </div>
+
+        <div class="entry">
+          <div class="when">Pre-2021</div>
+          <div>
+            <span class="role-sub">Academic excellence</span>
+            <h3>Bachillerato, scientific-technological track</h3>
+            <p>Completed secondary education with academic excellence in the scientific-technological branch.</p>
+          </div>
+        </div>
       </div>
+
     </div>
-
-    <div class="entry">
-      <div class="when">Sep 2023 – Sep 2024<span class="where">UJI Robotics</span></div>
-      <div>
-        <span class="role-sub">Robotics</span>
-        <h3>Robotic intelligence</h3>
-        <p>Contributed to the "UJI Robotics" team at Universitat Jaume I, working on robotics software as part of a student research group.</p>
-      </div>
-    </div>
-
-    <div class="entry">
-      <div class="when">Sep 2023 – Sep 2024</div>
-      <div>
-        <span class="role-sub">Web development</span>
-        <h3>Building for the web</h3>
-        <p>Studied modern web development practices and designed and built web pages end to end.</p>
-      </div>
-    </div>
-
-    <div class="entry">
-      <div class="when">Sep 2022 – Jul 2023<span class="where">Grupo GIANT</span></div>
-      <div>
-        <span class="role-sub">Research</span>
-        <h3>Neural networks research</h3>
-        <p>Member of the GIANT research group, studying neural network architectures and contributing to ongoing research.</p>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<section id="education" class="reveal">
-  <div class="wrap">
-    <div class="section-head">
-      <h2 class="title">Education</h2>
-    </div>
-
-    <div class="entry">
-      <div class="when">2025 – 2027<span class="where">Münster, Germany</span></div>
-      <div>
-        <span class="role-sub">In progress</span>
-        <h3>Erasmus Mundus MSc, Geospatial Technologies</h3>
-        <p>Joint degree between NOVA IMS (Lisbon), the University of Münster, and Universitat Jaume I (Castellón); one semester per city.</p>
-      </div>
-    </div>
-
-    <div class="entry">
-      <div class="when">2021 – 2025<span class="where">Castellón, Spain</span></div>
-      <div>
-        <span class="role-sub">Graduated</span>
-        <h3>B.Sc. Software Engineering, Universitat Jaume I</h3>
-        <p>Undergraduate degree in software engineering, alongside research and Machine Learning activity described under Experience.</p>
-      </div>
-    </div>
-
-    <div class="entry">
-      <div class="when">Pre-2021</div>
-      <div>
-        <span class="role-sub">Academic excellence</span>
-        <h3>Bachillerato, scientific-technological track</h3>
-        <p>Completed secondary education with academic excellence in the scientific-technological branch.</p>
-      </div>
-    </div>
-
   </div>
 </section>
 
@@ -444,7 +435,8 @@ h1.name{
   (function(){
     var root = document.documentElement;
     var btn = document.getElementById('theme-toggle');
-    var saved = localStorage.getItem('theme');
+    var saved = null;
+    try { saved = localStorage.getItem('theme'); } catch(e) {}
     var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
     if (saved) { root.setAttribute('data-theme', saved); }
     else if (prefersLight) { root.setAttribute('data-theme', 'light'); }
@@ -456,7 +448,7 @@ h1.name{
     });
   })();
 
-  // Fade-in transition between whole blocks (hero, about, experience, education, skills, contact)
+  // Fade-in transition between whole blocks (hero, about, experience/education, skills, contact)
   (function(){
     var blocks = document.querySelectorAll('.reveal');
     if (!('IntersectionObserver' in window)) {
