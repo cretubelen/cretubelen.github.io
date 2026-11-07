@@ -97,43 +97,68 @@
   h1.page-title{ font-size:clamp(2rem, 5vw, 2.8rem); line-height:1.1; font-weight:700; }
   header.page-head p{ margin-top:16px; font-size:1.05rem; }
 
-  /* project blocks */
-  .project{ padding:56px 0; border-top:1px solid var(--hair); }
-  .project:nth-of-type(odd){ background:var(--alt); }
-  .project-grid{
-    display:grid;
-    grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);
-    gap:48px;
-    align-items:start;
+  /* projects carousel */
+  .projects{ padding:8px 0 72px; }
+  .carousel{ position:relative; }
+  .track{
+    display:flex; gap:24px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    scroll-behavior:smooth;
+    padding:4px 24px 12px;
+    scrollbar-width:none;
   }
-  .project.flip .project-grid{ grid-template-columns:minmax(0,1.6fr) minmax(0,1fr); }
-  .project.flip .project-text{ order:2; }
-  @media (max-width:860px){
-    .project-grid, .project.flip .project-grid{ grid-template-columns:1fr; gap:28px; }
-    .project.flip .project-text{ order:0; }
-  }
-  .project h2{ font-size:1.5rem; font-weight:600; margin-bottom:14px; }
-  .project h3{ font-size:1.02rem; font-weight:600; margin:22px 0 6px; color:var(--accent-strong); }
-  .project-text p{ max-width:none; }
-  .taglist{ display:flex; flex-wrap:wrap; gap:8px 10px; padding:0; margin:22px 0 0; list-style:none; }
-  .taglist li{ font-size:0.85rem; padding:5px 12px; border:1px solid var(--hair); border-radius:var(--radius); color:var(--ink-soft); }
-
-  figure{ margin:0; }
-  figure img{
-    display:block;
-    width:100%;
-    height:auto;
+  .track::-webkit-scrollbar{ display:none; }
+  .card{
+    flex:0 0 min(640px, 86%);
+    scroll-snap-align:start;
+    display:flex; flex-direction:column;
+    background:var(--alt);
     border:1px solid var(--hair);
     border-radius:var(--radius);
-    background:#fff;
+    overflow:hidden;
   }
-  figcaption{ margin-top:10px; font-size:0.82rem; color:var(--tan); }
+  .card img{
+    display:block; width:100%;
+    aspect-ratio:2.2 / 1;
+    object-fit:contain;
+    background:#fff;
+    border-bottom:1px solid var(--hair);
+  }
+  .card-body{ padding:22px 24px 26px; }
+  .card h2{ font-size:1.3rem; font-weight:600; margin-bottom:10px; }
+  .card h3{ font-size:0.98rem; font-weight:600; margin:16px 0 4px; color:var(--accent-strong); }
+  .card p{ max-width:none; font-size:0.95rem; }
+  .taglist{ display:flex; flex-wrap:wrap; gap:8px 10px; padding:0; margin:18px 0 0; list-style:none; }
+  .taglist li{ font-size:0.85rem; padding:5px 12px; border:1px solid var(--hair); border-radius:var(--radius); color:var(--ink-soft); }
+
+  .carousel-ctrl{ display:flex; align-items:center; gap:14px; margin-top:20px; padding:0 24px; }
+  .carousel-ctrl button{
+    width:36px; height:36px; border:1px solid var(--hair); border-radius:50%;
+    background:none; color:var(--ink-soft); cursor:pointer; font-size:1rem; line-height:1;
+    transition:color .15s ease, border-color .15s ease;
+  }
+  .carousel-ctrl button:hover, .carousel-ctrl button:focus-visible{ color:var(--accent); border-color:var(--accent); }
+  .dots{ display:flex; gap:8px; }
+  .dots button{ width:9px; height:9px; padding:0; border-radius:50%; background:var(--hair); border:none; }
+  .dots button[aria-current="true"]{ background:var(--accent); }
+
+
+  /* scroll progress line */
+  #progress{
+    position:fixed; top:0; left:0; right:0; height:2px; z-index:30;
+    background:var(--accent-strong);
+    transform-origin:0 50%;
+    transform:scaleX(0);
+    pointer-events:none;
+  }
 
   footer{ padding:32px 0 48px; font-size:0.8rem; color:var(--tan); }
   :focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
 </style>
 </head>
 <body>
+<div id="progress" aria-hidden="true"></div>
 
 <nav>
   <div class="wrap">
@@ -160,42 +185,39 @@
   </div>
 </header>
 
-<section class="project" id="cycling-infra">
+<section class="projects" id="projects">
   <div class="wrap wide">
-    <div class="project-grid">
-      <div class="project-text">
-        <h2>Cycling infrastructure</h2>
-        <p>A comparison of cycling infrastructure in Münster, Germany and Amsterdam, Netherlands, with every route classified by safety level using OpenStreetMap data.</p>
-        <h3>Comparison 🇩🇪 vs 🇳🇱</h3>
-        <p><span class="mono">compare_cities()</span> draws the maps for both cities with exactly the same color palette. That makes it easy to compare the type of infrastructure each city uses at a glance, without checking the summary tables 🚲</p>
-        <ul class="taglist">
-          <li>OpenStreetMap</li><li>Münster</li><li>Amsterdam</li>
-        </ul>
-      </div>
-      <figure>
-        <img src="images/cycling-infra.png" alt="Two maps comparing cycling infrastructure in Münster and Amsterdam, with routes colored by type: dedicated track, footway track, painted lane, shared road." loading="lazy">
-        <figcaption>Cycling infrastructure by safety level, Münster and Amsterdam. Source: OpenStreetMap contributors.</figcaption>
-      </figure>
-    </div>
-  </div>
-</section>
+    <div class="carousel" id="carousel" aria-roledescription="carousel" aria-label="Projects">
+      <div class="track" id="track">
 
-<section class="project flip" id="hazard-response">
-  <div class="wrap wide">
-    <div class="project-grid">
-      <div class="project-text">
-        <h2>Community hazard response</h2>
-        <p>An interactive web map where people post needs and offers during a hazard event, with filters for facilities and a search by administrative area. Here it is shown over Lisbon.</p>
-        <h3>Nearby offers: proximity radius</h3>
-        <p>Click a need on the map and a dashed 2 km radius circle appears, highlighting the matching offers by proximity. Bright green circles are within range, and the closest offer is shown largest.</p>
-        <ul class="taglist">
-          <li>Leaflet</li><li>OpenStreetMap</li><li>Lisbon</li>
-        </ul>
+        <article class="card" id="cycling-infra">
+          <img src="images/cycling-infra.png" alt="Two maps comparing cycling infrastructure in Münster and Amsterdam, with routes colored by type: dedicated track, footway track, painted lane, shared road." loading="lazy">
+          <div class="card-body">
+            <h2>Cycling infrastructure</h2>
+            <p>A comparison of cycling infrastructure in Münster, Germany and Amsterdam, Netherlands, with every route classified by safety level using OpenStreetMap data.</p>
+            <h3>Comparison 🇩🇪 vs 🇳🇱</h3>
+            <p><span class="mono">compare_cities()</span> draws the maps for both cities with exactly the same color palette. That makes it easy to compare the type of infrastructure each city uses at a glance, without checking the summary tables 🚲</p>
+            <ul class="taglist"><li>OpenStreetMap</li><li>Münster</li><li>Amsterdam</li></ul>
+          </div>
+        </article>
+
+        <article class="card" id="hazard-response">
+          <img src="images/hazard-response.png" alt="Map of Lisbon with red needs markers, green offers markers and a dashed 2 km radius circle around a selected need." loading="lazy">
+          <div class="card-body">
+            <h2>Community hazard response</h2>
+            <p>An interactive web map where people post needs and offers during a hazard event, with filters for facilities and a search by administrative area. Here it is shown over Lisbon.</p>
+            <h3>Nearby offers: proximity radius</h3>
+            <p>Click a need on the map and a dashed 2 km radius circle appears, highlighting the matching offers by proximity. Bright green circles are within range, and the closest offer is shown largest.</p>
+            <ul class="taglist"><li>Leaflet</li><li>OpenStreetMap</li><li>Lisbon</li></ul>
+          </div>
+        </article>
+
       </div>
-      <figure>
-        <img src="images/hazard-response.png" alt="Map of Lisbon with red needs markers, green offers markers and a dashed 2 km radius circle around a selected need." loading="lazy">
-        <figcaption>Selecting a need draws a 2 km radius and highlights the offers in range.</figcaption>
-      </figure>
+      <div class="carousel-ctrl">
+        <button type="button" id="prev" aria-label="Previous project">&#8592;</button>
+        <button type="button" id="next" aria-label="Next project">&#8594;</button>
+        <div class="dots" id="dots"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -222,6 +244,79 @@
       root.setAttribute('data-theme', next);
       try { localStorage.setItem('theme', next); } catch(e) {}
     });
+  })();
+
+  // Thin progress line that grows as you scroll
+  (function(){
+    var bar = document.getElementById('progress');
+    var ticking = false;
+    function update(){
+      var h = document.documentElement;
+      var max = h.scrollHeight - h.clientHeight;
+      var p = max > 0 ? Math.min(1, Math.max(0, h.scrollTop / max)) : 0;
+      bar.style.transform = 'scaleX(' + p + ')';
+      ticking = false;
+    }
+    window.addEventListener('scroll', function(){
+      if (!ticking) { ticking = true; window.requestAnimationFrame(update); }
+    }, { passive:true });
+    window.addEventListener('resize', update);
+    update();
+  })();
+
+  // Projects carousel: auto-rotates, pauses on hover/focus, swipe or arrows to move
+  (function(){
+    var track = document.getElementById('track');
+    var cards = Array.prototype.slice.call(track.children);
+    var dots = document.getElementById('dots');
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var current = 0, timer = null, paused = false;
+
+    cards.forEach(function(_, i){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.setAttribute('aria-label', 'Go to project ' + (i + 1));
+      b.addEventListener('click', function(){ go(i); restart(); });
+      dots.appendChild(b);
+    });
+
+    function mark(){
+      Array.prototype.forEach.call(dots.children, function(d, i){
+        d.setAttribute('aria-current', i === current ? 'true' : 'false');
+      });
+    }
+    function go(i){
+      current = (i + cards.length) % cards.length;
+      track.scrollTo({ left: cards[current].offsetLeft - cards[0].offsetLeft, behavior: reduce ? 'auto' : 'smooth' });
+      mark();
+    }
+    // keep the dots in sync when the person swipes or scrolls manually
+    var t;
+    track.addEventListener('scroll', function(){
+      clearTimeout(t);
+      t = setTimeout(function(){
+        var best = 0, dist = Infinity;
+        cards.forEach(function(c, i){
+          var d = Math.abs(c.offsetLeft - cards[0].offsetLeft - track.scrollLeft);
+          if (d < dist) { dist = d; best = i; }
+        });
+        current = best; mark();
+      }, 80);
+    }, { passive:true });
+
+    function start(){ if (!reduce && !timer) timer = setInterval(function(){ if (!paused) go(current + 1); }, 5000); }
+    function stop(){ clearInterval(timer); timer = null; }
+    function restart(){ stop(); start(); }
+
+    var box = document.getElementById('carousel');
+    box.addEventListener('mouseenter', function(){ paused = true; });
+    box.addEventListener('mouseleave', function(){ paused = false; });
+    box.addEventListener('focusin', function(){ paused = true; });
+    box.addEventListener('focusout', function(){ paused = false; });
+    document.getElementById('prev').addEventListener('click', function(){ go(current - 1); restart(); });
+    document.getElementById('next').addEventListener('click', function(){ go(current + 1); restart(); });
+
+    mark(); start();
   })();
 </script>
 
